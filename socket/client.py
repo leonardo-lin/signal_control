@@ -7,7 +7,7 @@ Created on Tue Mar  2 21:15:17 2021
 
 import socket
 
-HOST = '192.168.43.201'
+HOST = '192.168.56.1'
 PORT = 8000
 
 clientMessage = ['mp',6,89]
@@ -21,8 +21,9 @@ while(1):
         #clientMessage[i]=input()
         a+=str(clientMessage[i])
         a+=','
-        i+=1   
-    client.sendall(a.encode())    
+        i+=1
+    #a=input()
+    client.send(a.encode)    
     #serverMessage = str(client.recv(1024), encoding='utf-8')
     #print('Server:', serverMessage)
 
