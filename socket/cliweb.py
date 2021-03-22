@@ -8,12 +8,13 @@ from pynput.mouse import Listener
 #from pynput import keyboard
 import socket
 import time
-HOST = '192.168.50.18'
+HOST = '192.168.31.174'
 PORT = 8000
 clientMessage = ['mp',6,89]
 print(clientMessage)
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client.connect((HOST, PORT))
+print("connet success")
 """while(1):
     i=0
     a=''
@@ -77,17 +78,24 @@ def h():
         listener.join()
 #keyboard        
 def k():
+    doc ={'get':[]}
     def on_press(key):
         try:
             print('alphanumeric key {0} pressed'.format(
                 key.char))
             #print(type(key),key)
+            if(key.char in doc['get']):
+                doc['get'].append(key.char)
+                a={'0':'kp','1':key.char,'2':5}       
+                #print(a)
+                b=json.dumps(a)
+                print(b)
+                client.send(b.encode())
+                #print('get',key.char)
+            else:
+                print('again',key.char)
             
-            a={'0':'kp','1':key.char,'2':5}       
-            #print(a)
-            b=json.dumps(a)
-            print(b)
-            client.send(b.encode())
+            
             
         except AttributeError:
             print('special key {0} pressed'.format(
@@ -113,6 +121,7 @@ def k():
     def on_release(key):
         try:            
             print('{0} released'.format(key))
+            
             a={'0':'kr','1':key.char,'2':5}       
             #print(a)
             b=json.dumps(a)

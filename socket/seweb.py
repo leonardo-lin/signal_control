@@ -37,14 +37,17 @@ def krelease(a):
     print('keyboard release',a)
 import json
 import socket
-HOST = '192.168.50.18'
+HOST = '192.168.31.207'
 PORT = 8000 
-
+print("connecting")
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server.bind((HOST, PORT))
 server.listen(10)
 conn, addr = server.accept()
+print("connect success")
+#count=0
 while True:
+    #count+=1
     #print(time.time())
     clientMessage = (conn.recv(1024))
     signal=json.loads(clientMessage)
