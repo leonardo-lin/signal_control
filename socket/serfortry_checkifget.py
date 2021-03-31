@@ -15,10 +15,10 @@ mouse = Controller()
 
 check_if_press ={'get':[]}
 #press in while
-def press(n):
+def press(n,a):
     time.sleep(0.05)
     while n in check_if_press['get']:
-        keyboard_control.press(n)
+        keyboard_control.press(a)
         time.sleep(0.05)
         
 
@@ -43,7 +43,8 @@ def kpress(a):
     #keyboard.press(a)
     keyboard_control.press(a)
     print('keyboard press',a)
-    p1= Thread(target=press(a))
+    check_if_press['get'].append(a)
+    p1= Thread(target=press(a,a))
     p1.start()
 def krelease(a):
     keyboard_control.release(a)
@@ -82,43 +83,50 @@ while True:
     elif signal['0']=='kp':
         if signal['1']=='up':
             keyboard_control.press(keyboard.Key.up)
+            check_if_press['get'].append('up')
+            p1= Thread(target=press('up',keyboard.Key.up))
+            p1.start
         elif signal['1']=='down':
             keyboard_control.press(keyboard.Key.down)
+            check_if_press['get'].append('down')
+            p1= Thread(target=press('down',keyboard.Key.down))
+            p1.start
         elif signal['1']=='left':
             keyboard_control.press(keyboard.Key.left)
+            check_if_press['get'].append('left')
+            p1= Thread(target=press('left',keyboard.Key.left))
+            p1.start
         elif signal['1']=='right':
             keyboard_control.press(keyboard.Key.right)
+            check_if_press['get'].append('right')
+            p1= Thread(target=press('right',keyboard.Key.right))
+            p1.start
         elif signal['1']=='enter':
             keyboard_control.press(keyboard.Key.enter)
+            check_if_press['get'].append('enter')
+            p1= Thread(target=press('enter',keyboard.Key.enter))
+            p1.start
         else :   
             kpress(signal['1'])
         #kpress(signal['1'])            
     elif signal['0']=='kr':
         if signal['1']=='up':
             keyboard_control.release(keyboard.Key.up)
+            check_if_press['get'].remove('up')
         elif signal['1']=='down':
             keyboard_control.release(keyboard.Key.down)
+            check_if_press['get'].remove('down')
         elif signal['1']=='left':
             keyboard_control.release(keyboard.Key.left)
+            check_if_press['get'].remove('left')
         elif signal['1']=='right':
             keyboard_control.release(keyboard.Key.right)
+            check_if_press['get'].remove('right')
         elif signal['1']=='enter':
             keyboard_control.release(keyboard.Key.enter)
+            check_if_press['get'].remove('enter')
         else:
             krelease((signal['1']))
-    """i=0
-    j=0
-    signal=['','','']
-    while(i<len(clientMessage)):
-        if clientMessage[i]!=',':           `
-            signal[j]+=(clientMessage[i])
-        else:
-            j+=1
-        i+=1"""
-        
-    #print('Client message is:',signal)
-    #print('message is ',clientMessage)
-    #serverMessage = 'I\'m here!'
-    #conn.sendall(serverMessage.encode())
     
-    #conn.close()      
+    
+    conn.close()      
