@@ -14,12 +14,12 @@ mouse = Controller()
 
 
 check_if_press ={'get':[]}
-#press in while
+
 def press(n,a):
-    time.sleep(0.05)
+    time.sleep(1)
     while n in check_if_press['get']:
         keyboard_control.press(a)
-        time.sleep(0.05)
+        time.sleep(1)
         
 
 def mmove(x,y):
@@ -56,7 +56,7 @@ def krelease(a):
         
 import json
 import socket
-HOST = '192.168.31.207'
+HOST = '192.168.194.120'
 PORT = 8000 
 print("connecting")
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -128,5 +128,4 @@ while True:
         else:
             krelease((signal['1']))
     
-    
-    conn.close()      
+  

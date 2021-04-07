@@ -36,7 +36,7 @@ def kpress(a):
     #keyboard.press(a)
     keyboard_control.press(a)
     print('keyboard press',a)
-    th=Thread(target=pressing(a))
+    th=Thread(target=pressing,args=a)
     th.start()
     th.join()
     #pressing(a)
