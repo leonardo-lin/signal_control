@@ -6,7 +6,7 @@ Created on Sat Mar  6 23:02:31 2021
 """
 import time
 from pynput.keyboard import Key, Controller
-keyboar = Controller()
+keyboard_control = Controller()
 from pynput import keyboard
 
 from  pynput.mouse import Button,Controller 
@@ -30,10 +30,10 @@ def mscroll(x,y):
     #print(time.time())
 def kpress(a):
     #keyboard.press(a)
-    keyboar.press(a)
+    keyboard_control.press(a)
     print('keyboard press',a)
 def krelease(a):
-    keyboar.release(a)
+    keyboard_control.release(a)
     print('keyboard release',a)
 import json
 import socket
@@ -63,29 +63,29 @@ while True:
         mscroll(int(signal['1']), int(signal['2']))
     elif signal['0']=='kp':
         if signal['1']=='up':
-            keyboar.press(keyboard.Key.up)
+            keyboard_control.press(keyboard.Key.up)
         elif signal['1']=='down':
-            keyboar.press(keyboard.Key.down)
+            keyboard_control.press(keyboard.Key.down)
         elif signal['1']=='left':
-            keyboar.press(keyboard.Key.left)
+            keyboard_control.press(keyboard.Key.left)
         elif signal['1']=='right':
-            keyboar.press(keyboard.Key.right)
+            keyboard_control.press(keyboard.Key.right)
         elif signal['1']=='enter':
-            keyboar.press(keyboard.Key.enter)
+            keyboard_control.press(keyboard.Key.enter)
         else :   
             kpress(signal['1'])
         #kpress(signal['1'])            
     elif signal['0']=='kr':
         if signal['1']=='up':
-            keyboar.release(keyboard.Key.up)
+            keyboard_control.release(keyboard.Key.up)
         elif signal['1']=='down':
-            keyboar.release(keyboard.Key.down)
+            keyboard_control.release(keyboard.Key.down)
         elif signal['1']=='left':
-            keyboar.release(keyboard.Key.left)
+            keyboard_control.release(keyboard.Key.left)
         elif signal['1']=='right':
-            keyboar.release(keyboard.Key.right)
+            keyboard_control.release(keyboard.Key.right)
         elif signal['1']=='enter':
-            keyboar.release(keyboard.Key.enter)
+            keyboard_control.release(keyboard.Key.enter)
         else:
             krelease((signal['1']))
     """i=0

@@ -44,7 +44,7 @@ def kpress(a):
     keyboard_control.press(a)
     print('keyboard press',a)
     check_if_press['get'].append(a)
-    p1= Thread(target=press(a,a))
+    p1= Thread(target=press,args=(a,a))
     p1.start()
 def krelease(a):
     keyboard_control.release(a)

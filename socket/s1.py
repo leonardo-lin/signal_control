@@ -12,29 +12,9 @@ from threading import Thread
 from  pynput.mouse import Button,Controller 
 mouse_control = Controller() 
 check_if_press ={'get':[]}
-press_key = {}
-class pressing(Thread):
-    def __init__(self, key, press_dict):
-        Thread.__init__(self)
-        self.signal = False
-        self.key = key
-        self.press_dict = press_dict
-    def run(self):
-        count = 0
-        while(self.key in self.press_dict['get']):
-            count+=1
-            time.sleep(0.01)
-            keyboard_control.press(self.key)
-            if self.signal:
-                print(f'{self.key} thread killed by signal, count={count}')
-                break
-            if count==100:
-                print(f'{self.key} thread killed')
-                break
-    def kill(self):
-        print(f'{self.key} kill signal emit')
-        self.signal = True
-
+def pressing(a):
+    while(a in check_if_press['get']):
+        keyboard_control.press(a)
 def mmove(x,y):
     mouse_control.position=(x,y)
     print(mouse_control.position)
@@ -52,27 +32,19 @@ def mscroll(x,y):
     mouse_control.scroll(x,y)
     print('mouse scroll')
     #print(time.time())
-
 def kpress(a):
     #keyboard.press(a)
     keyboard_control.press(a)
-    check_if_press['get'].append(a)
     print('keyboard press',a)
-    th=pressing(a, check_if_press)
-    press_key[a] = th
-    press_key[a].daemon = True
-    press_key[a].start()
-    # press_key[a].join()
-    
-    
-
+    th=Thread(target=pressing(a))
+    th.start()
+    th.join()
+    #pressing(a)
 def krelease(a):
     keyboard_control.release(a)
     print('keyboard release',a)
-    print(check_if_press['get'])
-    check_if_press['get'].remove(a)
-    press_key[a].kill()
-    print('killed')
+    check_if_press.remove(a)
+    
     
     
     
@@ -80,7 +52,7 @@ def krelease(a):
 #socket connect    
 import json
 import socket
-HOST = '192.168.0.101'
+HOST = '192.168.31.207'
 PORT = 8000 
 print("connecting")
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -107,7 +79,7 @@ while True:
     elif signal['0']=='ms':
         mscroll(int(signal['1']), int(signal['2']))
     elif signal['0']=='kp':
-        """if signal['1']=='up':
+        if signal['1']=='up':
             keyboard_control.press(keyboard.Key.up)       
         elif signal['1']=='down':
             keyboard_control.press(keyboard.Key.down)         
@@ -119,12 +91,12 @@ while True:
             #pressing('right')
         elif signal['1']=='enter':
             keyboard_control.press(keyboard.Key.enter)
-            #pressing('enter')"""
-          
-        kpress(signal['1'])
+            #pressing('enter')
+        else :   
+            kpress(signal['1'])
         #kpress(signal['1'])            
     elif signal['0']=='kr':
-        """if signal['1']=='up':
+        if signal['1']=='up':
             keyboard_control.release(keyboard.Key.up)
             check_if_press.remove('up')
         elif signal['1']=='down':
@@ -138,9 +110,9 @@ while True:
             check_if_press.remove('right')
         elif signal['1']=='enter':
             keyboard_control.release(keyboard.Key.enter)
-            check_if_press.remove('enter')"""
-        
-        krelease((signal['1']))
+            check_if_press.remove('enter')
+        else:
+            krelease((signal['1']))
     """i=0
     j=0
     signal=['','','']
